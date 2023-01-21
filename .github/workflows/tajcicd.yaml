@@ -1,8 +1,5 @@
 name: TajCICD Workflow
 on:
-  push:
-    branches:
-      - main
   pull_request:
     branches:
       - main
@@ -56,3 +53,57 @@ jobs:
         with:
           name: TajCICD
           path: app/build/outputs/apk/debug/app-debug.apk
+
+
+
+  create-release: # Job to create a new github release and upload the generated apk
+    name: 🎉 Create Release
+    needs: [ generate-apk ]
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Download APK from build
+        uses: actions/download-artifact@v1
+        with:
+          name: Android-CI-CD
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.MY_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+
+      - name: Upload Release APK
+        id: upload_release_asset
+        uses: actions/upload-release-asset@v1.0.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.MY_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: TajCICD/app-debug.apk
+          asset_name: TajCICD.apk
+          asset_content_type: application/zip
+
+  firebase-deploy:
+    name:  Deploy to Firebase App Distribution
+    needs: [ generate-apk ]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v1
+
+      - name: Download APK from build
+        uses: actions/download-artifact@v1
+        with:
+          name: TajCICD
+
+      - name: Upload Artifact to Firebase App Distribution
+        uses: wzieba/Firebase-Distribution-Github-Action@v1.2.2
+        with:
+          appId: ${{secrets.FIREBASE_APP_ID}}
+          token: ${{secrets.FIREBASE_TOKEN}}
+          groups: testers
+          file: TajCICD/app-debug.apk
