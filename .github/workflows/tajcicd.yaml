@@ -25,16 +25,16 @@ jobs:
   lint-check:
     name: Lint
     runs-on: ubuntu-latest
-      steps:
+    steps:
       - name: CheckoutCode
-          uses: actions/checkout@v2
+        uses: actions/checkout@v2
       - name: Lint check
-          run: ./gradlew lint
+        run: ./gradlew lint
       - name: Generate lint report
-          uses: actions/upload-artifact@v2
-          with:
-            name: lint_report.html
-            path: app/build/reports/lint-results-debug.html
+        uses: actions/upload-artifact@v2
+        with:
+          name: lint_report.html
+          path: app/build/reports/lint-results-debug.html
 
   generate-apk:
     name: ️Generate APK
