@@ -65,7 +65,7 @@ jobs:
       - name: Download APK from build
         uses: actions/download-artifact@v1
         with:
-          name: Android-CI-CD
+          name: TajCICD
 
       - name: Create Release
         id: create_release
