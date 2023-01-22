@@ -52,7 +52,7 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: TajCICD
-          path: app/build/outputs/apk/debug/*/
+          path: app/build/outputs/apk/debug/*.apk
 
 
 
@@ -83,7 +83,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.MY_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: TajCICD/app-debug.apk
+          asset_path: TajCICD/*.apk
           asset_name: TajCICD.apk
           asset_content_type: application/zip
 
@@ -106,4 +106,4 @@ jobs:
           appId: ${{secrets.FIREBASE_APP_ID}}
           token: ${{secrets.FIREBASE_TOKEN}}
           groups: testers
-          file: TajCICD/app-debug.apk
+          file: TajCICD/*.apk
