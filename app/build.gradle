@@ -6,19 +6,17 @@ plugins {
 android {
     namespace 'com.tajcicd'
     compileSdk 33
+    def gitCommitCount = "git rev-list HEAD --count".execute().text.trim().toBigInteger()
+    project.ext.set("versionCode", gitCommitCount)
+    project.ext.set("versionNameSuffix", "(${gitCommitCount})")
 
     defaultConfig {
         applicationId "com.tajcicd"
         minSdk 21
         targetSdk 33
-        versionCode 1
-        versionName "1.0"
-
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        vectorDrawables {
-            useSupportLibrary true
+        versionCode 2
+        versionName "1.0.0"
         }
-    }
 
     buildTypes {
         release {
