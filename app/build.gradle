@@ -14,15 +14,9 @@ android {
         applicationId "com.tajcicd"
         minSdk 21
         targetSdk 33
-        versionCode  project.versionCode
-                versionName "1.0"
-                versionNameSuffix project.versionNameSuffix
-                setProperty("archivesBaseName", "MyProject-$versionName")
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        vectorDrawables {
-            useSupportLibrary true
+        versionCode 2
+        versionName "1.0.0"
         }
-    }
 
     buildTypes {
         release {
@@ -48,16 +42,6 @@ android {
             excludes += '/META-INF/{AL2.0,LGPL2.1}'
         }
     }
-
- applicationVariants.all { variant ->
-    if (variant.name.contains('release')) {
-        variant.outputs.each { output ->
-            variant.outputs.all {
-                outputFileName = "MyProject-${variant.versionName}${variant.versionCode}.apk"
-            }
-        }
-    }
-}
 }
 
 dependencies {
