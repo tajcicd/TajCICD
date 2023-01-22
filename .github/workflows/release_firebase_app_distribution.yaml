@@ -4,12 +4,8 @@ on:
     branches:
       - main
 jobs:
-
   generate-apk:
     name: ️Generate APK
-    needs:
-      - build
-      - lint-check
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
